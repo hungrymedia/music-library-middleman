@@ -1,23 +1,64 @@
 ---
-title: Welcome to Middleman
+title: "Music Library"
 ---
 
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 340" class="middleman-logo" aria-labelledby="middleman-logo__title" role="img">
-  <title id="middleman-logo__title">Middleman</title>
-  <path class="middleman-logo__top-left-bar" fill-opacity=".45" d="M0 40L200 0v30L0 60z"/>
-  <path class="middleman-logo__top-right-bar" fill="#fff" d="M200 0l200 40v20L200 30z"/>
-  <path class="middleman-logo__left-m" fill-opacity=".45" d="M0 78v184l45 5V152l45 83 47-83v129l53 7V52l-57 8-43 83-43-70z"/>
-  <path class="middleman-logo__right-m" fill="#fff" d="M400 78v184l-45 5V152l-45 83-47-83v129l-53 7V52l57 8 43 83 43-70z"/>
-  <path class="middleman-logo__bottom-left-bar" fill-opacity=".45" d="M0 300l200 40v-30L0 280z"/>
-  <path class="middleman-logo__bottom-right-bar" fill="#fff" d="M200 340l200-40v-20l-200 30z"/>
-</svg>
+<section class="container px-0 intro-block">
+  <h1>Available Tracks</h1>
+</section>
 
-<h1>
-  Middleman is Running
-</h1>
-
-<%= link_to(
-  "Read Documentation",
-  "https://middlemanapp.com/basics/templating_language/",
-  target: "_blank"
-) %>
+<section class="container my-5" id="discography">
+  <div class="row">
+  <%= select_tag(
+    :format,
+    options: data.tracks.pluck(:artist).uniq.sort.prepend(['filter by artist', '']),
+    class: 'col form-select form-select-sm js-filter',
+    data: { filter: 'artist' },
+  ) %>
+  </div>
+  <div id="track-list" class="row mt-4">
+  <% idx = 0 %>
+  <% data.tracks.sort_by { |hash| hash.values_at(:artist) }.each_with_index do |track, idx| %>
+    <article data-artist="<%= track.artist %>">
+      <a href="#" class="player-control" data-control="wavesurfer<%= idx %>"><i class="fa-regular fa-circle-play" style="color: #FFD43B;"></i></a>
+      <a href="#" class="info-link" data-expand="#track-details-<%= idx %>">
+        <i class="fa-solid fa-circle-info" style="color: #FFD43B;"></i>
+      </a>
+      <img class="artwork" src="<%= track.artwork %>" alt="<%= track.song_title %> by <%= track.artist %>">
+      <div class="info px-0">
+        <h3 class="card-title">
+          <strong><%= track.song_title %></strong><br>
+          by <%= track.artist %>
+        </h3>
+      </div>
+      <div id="player-<%= idx %>" class="player"></div>
+      <script>
+        const wavesurfer<%= idx %> = WaveSurfer.create({
+          container: '#player-<%= idx %>',
+          height: 100,
+          progressColor: '#383351',
+          waveColor: '#4F4A85',
+          url: '<%= track.instrumental_version %>',
+        });
+        wavesurfer<%= idx %>.on('click', () => {
+          if(playing == wavesurfer<%= idx %>) {
+            return;
+          }
+          if(playing) { playing.stop(); }
+          wavesurfer<%= idx %>.play();
+          playing = wavesurfer<%= idx %>;
+        });
+      </script>
+    </article>
+    <div class="track-details px-0" id="track-details-<%= idx %>" data-expanded-by=".info-link">
+      <dl>
+        <% %w[writer_1 writer_2 writer_3 publisher_1 publisher_2 isrc_number iswc_number].each do |attribute| %>
+          <% next unless track.send(attribute) %>
+          <dt><%= attribute.humanize %></dt>
+          <dd><%= track.send(attribute) %></dd>
+        <% end %>
+      </dl>
+    </div>
+    <% idx = idx + 1 %>
+  <% end %>
+  </div>
+</section>

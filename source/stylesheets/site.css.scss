@@ -1,12 +1,42 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&family=Special+Gothic+Condensed+One&display=swap');
+.special-gothic-condensed-one-regular {
+  font-family: "Special Gothic Condensed One", sans-serif;
+  font-weight: 400;
+  font-style: normal;
+}
+
+.roboto {
+  font-family: "Roboto", sans-serif;
+  font-optical-sizing: auto;
+  font-weight: 300;
+  font-style: normal;
+  font-variation-settings:
+    "wdth" 100;
+}
+.roboto-500 {
+  @extend .roboto;
+  font-weight: 500;
+}
+
+$black: #000000;
+$white: #ffffff;
+
 body {
-  background-color: #fbc547;
   color: #333;
-  font-family: -apple-system, BlinkMacSystemFont, "Avenir Next", "Avenir",
-    "Segoe UI", "Lucida Grande", "Helvetica Neue", "Helvetica", "Fira Sans",
-    "Roboto", "Noto", "Droid Sans", "Cantarell", "Oxygen", "Ubuntu",
-    "Franklin Gothic Medium", "Century Gothic", "Liberation Sans", sans-serif;
-  padding: 18vh 1rem;
-  text-align: center;
+  @extend .roboto;
+}
+
+h1{
+  font-size: 4rem;
+  font-weight: 100;
+}
+h2 {
+  font-size: 1.6rem;
+  font-weight: 100;
+}
+h3 {
+  font-size: 0.9rem;
+  font-weight: 300;
 }
 
 a {
@@ -17,8 +47,96 @@ a {
     color: rgba(#000, 0.6);
   }
 }
-
-.middleman-logo {
-  margin-bottom: 1rem;
-  width: 10rem;
+.navbar {
+  .navbar-brand {
+    a {
+      text-decoration: none;
+    }
+  }
+  .navbar-nav {
+    .nav-link {
+      &.active {
+        text-decoration: underline !important;
+      }
+    }
+  }
 }
+
+main {
+  font-size: 1.3rem;
+}
+
+footer {
+  background-color: rgba(var(--bs-tertiary-bg-rgb), 0.8) !important;
+}
+
+.intro-block {
+  padding-top: 1rem;
+  color: $white;
+  h1, h2 {
+    background-color: rgba($black, 0.8);
+    display: inline-block;
+    margin: 0;
+    padding: 1rem 1.3rem;
+  }
+}
+
+#track-list {
+  article {
+    position: relative;
+    margin-bottom: 1rem;
+    padding-left: 0;
+    display: flex;
+    width: 100%;
+    a.player-control {
+      position: absolute;
+      display: block;
+      width: 100px;
+      height: 100px;
+      svg {
+        display: block;
+        height: 80%;
+        padding: 10%;
+      }
+    }
+    a.info-link {
+      position: absolute;
+      display: block;
+      bottom: 0;
+      right: 0;
+      background-color: rgba(255, 255, 255, 0.8);
+      z-index: 99;
+    }
+    img.artwork {
+      height: 100px;
+      margin-right: 1rem;
+    }
+    .info {
+      position: absolute;
+      left: 115px;
+      background-color: rgba(255, 255, 255, 0.9);
+      z-index: 99;
+      h3.card-title {
+        padding: 0.5rem;
+      }
+    }
+    .player {
+      width: 100%;
+    }
+  }
+  div.track-details {
+    display: none;
+    font-size: 0.8rem;
+    dl {
+      dt {
+        float: left;
+        clear: left;
+        margin-right: 0.25rem;
+        &:after {
+          content: ":";
+        }
+      }
+    }
+  }
+}
+

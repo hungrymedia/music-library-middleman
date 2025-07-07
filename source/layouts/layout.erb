@@ -1,16 +1,77 @@
 <!doctype html>
 <html>
-  <head>
+  <head lang="en">
     <meta charset="utf-8">
-    <meta http-equiv="x-ua-compatible" content="ie=edge">
     <meta name="viewport"
-          content="width=device-width, initial-scale=1, shrink-to-fit=no">
+          content="width=device-width, initial-scale=1">
     <!-- Use the title from a page's frontmatter if it has one -->
-    <title><%= current_page.data.title || "Middleman" %></title>
+    <title><%= current_page.data.title || data.site.title %></title>
+    <meta name="description" content="">
+
+    <!-- Facebook Meta Tags -->
+    <meta property="og:url" content="<%= data.site.url %>">
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="<%= data.site.title %>">
+    <meta property="og:image" content="<%= data.site.image %>">
+    <meta property="og:description" content="<%= data.site.description %>">
+
+    <!-- Twitter Meta Tags -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta property="twitter:domain" content="wphmusic.com">
+    <meta property="twitter:url" content="<%= data.site.url %>">
+    <meta name="twitter:title" content="<%= data.site.title %>">
+    <meta name="twitter:image" content="<%= data.site.image %>">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-SgOJa3DmI69IUzQ2PVdRZhwQ+dy64/BUtbMJw1MZ8t5HZApcHrRKUc4W0kG879m7" crossorigin="anonymous">
     <%= stylesheet_link_tag "site" %>
-    <%= javascript_include_tag "site" %>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/wavesurfer.js/7.9.9/wavesurfer.min.js" crossorigin="anonymous"></script>
+    <script src="https://kit.fontawesome.com/907cbaaa00.js" crossorigin="anonymous"></script>
   </head>
   <body>
-    <%= yield %>
+    <nav class="navbar navbar-expand-lg bg-body-tertiary">
+      <div class="container-fluid">
+        <span class="navbar-brand mb-0 h1"><a href="/">WPH Music/City Queen Sounds Music Library</a></span>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <% current_page = page_classes.split().shift %>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+          <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+            <li class="nav-item">
+              <%= link_to(
+                'Home',
+                '/',
+                class: "nav-link #{ 'active' if current_page.eql?('index') }",
+                aria: { current: current_page.eql?('index') ? 'page' : false },
+              ) %>
+            </li>
+            <li class="nav-item">
+              <%= link_to(
+                'Contact',
+                '/contact',
+                class: "nav-link #{ 'active' if current_page.eql?('contact') }",
+                aria: { current: current_page.eql?('contact') ? 'page' : false },
+              ) %>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+    <main class="container-fluid pb-5">
+      <%= yield %>
+    </main>
+    <footer class="container-fluid py-3 fixed-bottom">
+      <nav>
+        <ul class="nav justify-content-center">
+          <li class="nav-item mx-2"><a href="https://wphmusic.com">WPH Music</a></li>
+          <li class="nav-item mx-2"><a href="https://jesslamb.com">Jess Lamb</a></li>
+          <li class="nav-item mx-2"><a href="https://hungrylucy.com">Hungry Lucy</a></li>
+          <li class="nav-item mx-2"><a href="https://thestudioii.com">Studio II</a></li>
+          <li class="nav-item mx-2"><a href="https://hynterlands.com">Hynterlands</a></li>
+        </ul>
+      </nav>
+    </footer>
+    <script src="https://code.jquery.com/jquery-3.7.1.slim.min.js" integrity="sha256-kmHvs0B+OpCW5GVHUNjv9rOmY0IvSIRcf7zGUDTDQM8=" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/js/bootstrap.min.js" integrity="sha384-VQqxDN0EQCkWoxt/0vsQvZswzTHUVOImccYmSyhJTp7kGtPed0Qcx8rK9h9YEgx+" crossorigin="anonymous"></script>
+    <%= javascript_include_tag "site" %>
   </body>
 </html>
